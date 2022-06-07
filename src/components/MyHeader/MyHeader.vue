@@ -8,8 +8,10 @@
             <p>尚品汇欢迎您！</p>
             <p>
               <span>请</span>
-              <router-link to="/login" >登录</router-link>
-              <router-link to="/register" class="register">免费注册</router-link>
+              <router-link to="/login">登录</router-link>
+              <router-link to="/register" class="register"
+                >免费注册</router-link
+              >
             </p>
           </div>
           <div class="typeList">
@@ -39,7 +41,11 @@
               class="input-error input-xxlarge"
               v-model="keyword"
             />
-            <button @click="toSearch" class="sui-btn btn-xlarge btn-danger" type="button">
+            <button
+              @click="toSearch"
+              class="sui-btn btn-xlarge btn-danger"
+              type="button"
+            >
               搜索
             </button>
           </form>
@@ -53,13 +59,24 @@
 export default {
   data() {
     return {
-      keyword: ''
-    }
+      keyword: "",
+    };
   },
   methods: {
     toSearch() {
-      this.$router.push('/search?kw='+this.keyword)
-    }
+      // this.$router.push('/search/'+this.keyword)
+      let location = {
+          name: "search",
+          params: {
+            keyword: this.keyword || undefined,
+          },
+        };
+      if (this.$route.query) {
+        location.query = this.$route.query
+      }
+
+      this.$router.push(location);
+    },
   },
 };
 </script>

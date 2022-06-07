@@ -130,8 +130,15 @@ export default {
         } else if (category3id) {
           query.category3Id = category3id;
         }
+
+        // 判断是否有params参数,如果有一起带上
+        if(this.$route.params) {
+          location.params = this.$route.params
+        }
+          location.query = query;
+
+
         // 整理完参数
-        location.query = query;
         // 路由跳转
         this.$router.push(location);
       }

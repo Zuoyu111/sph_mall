@@ -5,8 +5,8 @@
     <recommend></recommend>
     <rank></rank>
     <like></like>
-    <floor></floor>
-    <floor></floor>
+    <floor :floor-data="item" :key="item.id" v-for="item in floorData"></floor>
+
     <brand></brand>
   </div>
 </template>
@@ -18,6 +18,7 @@ import Rank from "@/pages/Home/Rank";
 import Like from "@/pages/Home/Like";
 import Floor from "@/pages/Home/Floor";
 import Brand from "@/pages/Home/Brand";
+import { mapState } from "vuex";
 
 
 
@@ -30,8 +31,17 @@ export default {
     Floor,
     Brand
   },
+  computed: {
+    ...mapState({
+      floorData: state => state.home.floorData
+    })
+  },
   methods: {
 
+  },
+  mounted() {
+    this.$store.dispatch("fetchFloorData");
+    
   },
   created() {
     

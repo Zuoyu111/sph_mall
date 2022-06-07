@@ -4,28 +4,41 @@
       <div class="center">
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
 
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+
+            <swiper :options="swiperOptions">
+              <swiper-slide v-for="item in bannerList" :key="item.id">
+                <img :src="item.imgUrl" alt="">
+              </swiper-slide>
+              <div class="swiper-pagination" slot="pagination"></div>
+              <div class="swiper-button-prev" slot="button-prev"></div>
+              <div class="swiper-button-next" slot="button-next"></div>
+            </swiper>
+<!--          <div class="swiper-wrapper">-->
+<!--            <div class="swiper-slide">-->
+<!--              <img src="./images/banner1.jpg" />-->
+<!--            </div>-->
+<!--            &lt;!&ndash; <div class="swiper-slide">-->
+<!--              <img src="./images/banner2.jpg" />-->
+<!--            </div>-->
+<!--            <div class="swiper-slide">-->
+<!--              <img src="./images/banner3.jpg" />-->
+<!--            </div>-->
+<!--            <div class="swiper-slide">-->
+<!--              <img src="./images/banner4.jpg" />-->
+<!--            </div> &ndash;&gt;-->
+<!--          </div>-->
+<!--          &lt;!&ndash; 如果需要分页器 &ndash;&gt;-->
+<!--          <div class="swiper-pagination"></div>-->
+
+<!--          &lt;!&ndash; 如果需要导航按钮 &ndash;&gt;-->
+<!--          <div class="swiper-button-prev"></div>-->
+<!--          <div class="swiper-button-next"></div>-->
         </div>
+
+
       </div>
+
       <div class="right">
         <div class="news">
           <h4>
@@ -101,8 +114,40 @@
 
 
 <script>
+import {mapState} from "vuex";
 export default {
-  
+  name: 'ListContainer',
+  data() {
+    return {
+      swiperOptions: {
+        loop: true,
+        autoplay: {
+          delay: 2000,
+          stopOnLastSlide: false,
+          disableOnInteraction: false,
+        },
+        // 显示分页
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true //允许分页点击跳转
+        },
+        // 设置点击箭头
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+        // Some Swiper option/callback...
+      },
+    }
+  },
+  computed: {
+    ...mapState({
+      bannerList: state => state.home.bannerList
+    })
+  },
+  mounted() {
+    this.$store.dispatch("fetchBannerData");
+  },
 }
 </script>
   

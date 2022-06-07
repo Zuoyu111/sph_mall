@@ -1,28 +1,28 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">    
+    <my-header></my-header>
+    <router-view></router-view>
+    <my-footer v-show="$route.meta.show"></my-footer>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MyHeader from './components/MyHeader/MyHeader.vue'
+import MyFooter from './components/MyFooter/MyFooter.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    MyHeader,
+    MyFooter
+  },
+  mounted() {
+    this.$store.dispatch("fetchCategoryListData");
+    
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>

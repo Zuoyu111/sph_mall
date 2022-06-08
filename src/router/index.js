@@ -16,7 +16,8 @@ const router = new VueRouter({
       meta: { show: true }
     },
     {
-      path: '/search/:keyword',
+      path: '/search/:keyword?',
+      // path: '/search/',
       name:'search',
       component: Search,
       meta: { show: true }

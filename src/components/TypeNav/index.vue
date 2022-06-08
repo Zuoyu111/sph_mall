@@ -114,9 +114,9 @@ export default {
       const { categoryname, category1id, category2id, category3id } =
         Element.dataset;
 
-      console.log(Element.dataset);
+      // console.log(Element.dataset);
 
-      console.log(categoryname, category1id, category2id, category3id);
+      // console.log(categoryname, category1id, category2id, category3id);
 
       if (categoryname) {
         // 整理路由跳转的参数
@@ -142,8 +142,7 @@ export default {
         // 路由跳转
         this.$router.push(location);
       }
-
-      console.log(categoryname);
+      
     },
   },
   computed: {

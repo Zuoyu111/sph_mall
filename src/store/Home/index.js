@@ -33,7 +33,7 @@ const actions = {
   //获取首页轮播图模拟数据
   async fetchBannerData( { commit }) {
     const res = await fetchBannerData();
-    console.log(res);
+    
     if( res.code === 200) {
       commit("BANNER",res.data);
     }

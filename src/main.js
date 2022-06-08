@@ -21,8 +21,12 @@ import '@/mock/mockServe'
 
 Vue.config.productionTip = false
 
+
 new Vue({
   store,
   router,
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  },
   render: h => h(App),
 }).$mount('#app')

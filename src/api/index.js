@@ -12,7 +12,7 @@ export const fetchCategoryListData = () => {
 
 
 export const searchData = ( params ) => {
-  console.log(111)
+  
   return request({
     url:'/list',
     method: 'POST',

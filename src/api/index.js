@@ -10,13 +10,21 @@ export const fetchCategoryListData = () => {
   })
 }
 
-
+// 获取搜索数据
 export const searchData = ( params ) => {
   
   return request({
     url:'/list',
     method: 'POST',
     data: params            
+  })
+}
+
+// 获取商品详情
+export const fatchDetailData = ( id ) => {
+  return request({
+    url: '/item/'+ id,
+    method: "GET"
   })
 }
 

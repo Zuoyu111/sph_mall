@@ -348,16 +348,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
   import ImageList from './ImageList/ImageList'
   import Zoom from './Zoom/Zoom'
 
   export default {
     name: 'Detail',
-    
     components: {
       ImageList,
       Zoom
-    }
+    },
+    computed: {
+      ...mapGetters(['categoryView'])
+    },
+    mounted() {
+      // 派发action获取产品详情
+      
+      this.$store.dispatch('getGoodsInfo',this.$route.params.goodsid)
+    },
   }
 </script>
 

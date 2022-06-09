@@ -17,8 +17,7 @@ const actions = {
   async fetchSearchData({ commit }, params = {}) {
     const res = await searchData( params );
     
-    if(res.code == 200) {
-      
+    if(res.code == 200) {      
       commit('SEARCHDATA',res.data)
     }
   },

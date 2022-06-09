@@ -1,62 +1,65 @@
 <template>
   <div class="type-nav">
-    <div class="container" @mouseenter="enterShow"  @mouseleave="leaveIndex">
-      <h2 class="all">全部商品分类</h2>
+    <div class="container">
+      <div @mouseenter="enterShow" @mouseleave="leaveIndex">
+        <h2 class="all">全部商品分类</h2>
 
-      <!-- 过渡动画 -->
-      <transition name="sort">
-        <div class="sort" v-show="isShow" >
-          <div class="all-sort-list2" @click="goSearch">
-            <div
-             
-              class="item"
-              :class="currentIndex === index ? 'cur' : ''"
-              v-for="(item, index) in categoryList"
-              :key="item.categoryId"
-            >
-              <h3 @mouseenter="changeIndex(index)">
-                <a
-                  :data-categoryName="item.categoryName"
-                  :data-category1Id="item.categoryId"
-                  >{{ item.categoryName }}</a
-                >
-              </h3>
+        <!-- 过渡动画 -->
+        <transition name="sort">
+          <div class="sort" v-show="isShow">
+            <div class="all-sort-list2" @click="goSearch">
               <div
-                class="item-list clearfix"
-                :style="{ display: currentIndex === index ? 'block' : 'none' }"
+                class="item"
+                :class="currentIndex === index ? 'cur' : ''"
+                v-for="(item, index) in categoryList"
+                :key="item.categoryId"
               >
+                <h3 @mouseenter="changeIndex(index)">
+                  <a
+                    :data-categoryName="item.categoryName"
+                    :data-category1Id="item.categoryId"
+                    >{{ item.categoryName }}</a
+                  >
+                </h3>
                 <div
-                  class="subitem"
-                  v-for="subitem in item.categoryChild"
-                  :key="subitem.categoryId"
+                  class="item-list clearfix"
+                  :style="{
+                    display: currentIndex === index ? 'block' : 'none',
+                  }"
                 >
-                  <dl class="fore">
-                    <dt>
-                      <a
-                        :data-categoryName="subitem.categoryName"
-                        :data-category2Id="subitem.categoryId"
-                        >{{ subitem.categoryName }}</a
-                      >
-                    </dt>
-                    <dd>
-                      <em
-                        v-for="ssubitem in subitem.categoryChild"
-                        :key="ssubitem.categoryId"
-                      >
+                  <div
+                    class="subitem"
+                    v-for="subitem in item.categoryChild"
+                    :key="subitem.categoryId"
+                  >
+                    <dl class="fore">
+                      <dt>
                         <a
-                          :data-categoryName="ssubitem.categoryName"
-                          :data-category3Id="ssubitem.categoryId"
-                          >{{ ssubitem.categoryName }}</a
+                          :data-categoryName="subitem.categoryName"
+                          :data-category2Id="subitem.categoryId"
+                          >{{ subitem.categoryName }}</a
                         >
-                      </em>
-                    </dd>
-                  </dl>
+                      </dt>
+                      <dd>
+                        <em
+                          v-for="ssubitem in subitem.categoryChild"
+                          :key="ssubitem.categoryId"
+                        >
+                          <a
+                            :data-categoryName="ssubitem.categoryName"
+                            :data-category3Id="ssubitem.categoryId"
+                            >{{ ssubitem.categoryName }}</a
+                          >
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -95,8 +98,9 @@ export default {
 
     leaveIndex() {
       this.currentIndex = "-1";
-
+      
       if (this.$route.path != "/home") {
+        
         this.isShow = false;
       }
     },
@@ -132,17 +136,15 @@ export default {
         }
 
         // 判断是否有params参数,如果有一起带上
-        if(this.$route.params) {
-          location.params = this.$route.params
+        if (this.$route.params) {
+          location.params = this.$route.params;
         }
-          location.query = query;
-
+        location.query = query;
 
         // 整理完参数
         // 路由跳转
         this.$router.push(location);
       }
-      
     },
   },
   computed: {
@@ -154,8 +156,7 @@ export default {
   },
   created() {},
   mounted() {
-
-    if (this.$route.path === "/search") {
+    if (this.$route.path === "/search"|| this.$route.path.indexOf('detail') !== -1) {
       this.isShow = false;
     }
   },
@@ -292,7 +293,7 @@ export default {
 
     // 过渡动画时间，速率
     .sort-enter-active {
-      transition: all .5s linear;
+      transition: all 0.5s linear;
     }
   }
 }

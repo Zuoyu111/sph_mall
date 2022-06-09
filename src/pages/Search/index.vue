@@ -1,6 +1,7 @@
 <template>
   <div>
-    <TypeNav />
+    <type-nav></type-nav>
+    
     <div class="main">
       <div class="py-container">
         <!--bread-->
@@ -74,9 +75,9 @@
               <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img :src="item.defaultImg"
-                    /></a>
+                    <router-link  :to="`/detail/${item.id}`">
+                      <img :src="item.defaultImg"/>
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -111,35 +112,14 @@
             </ul>
           </div>
 
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <pagination
+            :pageNo="searchParams.pageNo"
+            :pageSize="searchParams.pageSize"
+            :total="total"
+            :continues="5"
+            @getPageNo="getPageNo"
+          ></pagination>
+
         </div>
       </div>
     </div>
@@ -149,7 +129,7 @@
 <script>
 import SearchSelector from "./SearchSelector/SearchSelector";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "Search",
@@ -190,18 +170,22 @@ export default {
       let originOrder = this.searchParams.order;
       let originFlag = originOrder.split(":")[0];
       let originSort = originOrder.split(":")[1];
-      
+
       if (flag == originFlag) {
-      
         this.searchParams.order = `${flag}:${
           originSort == "desc" ? "asc" : "desc"
         }`;
-      }else {
-        this.searchParams.order = `${flag}:desc`
+      } else {
+        this.searchParams.order = `${flag}:desc`;
       }
+      this.getSearchData();
+    },
+    // 自定义事件 获取分页器组件当前页码
+    getPageNo(pageNo) {
+      console.log(pageNo);
+      this.searchParams.pageNo = pageNo
       this.getSearchData()
     },
-
     // 自定义事件 获取子组件的attr
     getAttrInfo(attr, attrVal) {
       // 整理数据
@@ -211,11 +195,11 @@ export default {
         this.searchParams.props.push(props);
       }
       this.getSearchData();
-      console.log(attr, attrVal, 544654);
+      
     },
     //自定义事件 获取子组件的brandinfo
     getBrandInfo(item) {
-      // console.log(data,'我是父亲')
+      
       // 整理品牌字段的参数
       this.searchParams.trademark = `${item.tmId}:${item.tmName}`;
       this.getSearchData();
@@ -256,14 +240,19 @@ export default {
       // 通知 header组件的搜索框置空
       this.$bus.$emit("clear");
       if (this.$route.query) {
-        console.log(this.$route.query, 43464);
+        
 
         this.$router.push({ name: "search", query: this.$route.query });
       }
     },
   },
   computed: {
+    // 获取商品列表
     ...mapGetters(["goodsList"]),
+    // 获取一共有多少条数据
+    ...mapState({
+      total: (state) => state.search.searchData.total,
+    }),
     isOne() {
       return this.searchParams.order.indexOf("1") !== -1;
     },

@@ -1,11 +1,11 @@
 <template>
   <div class="pagination">
     <button :disable="pageNo == 1" @click="$emit('getPageNo', pageNo - 1)" 
-    :class="{active:pageNo == 1}">
+    >
       上一页
     </button>
 
-    <button @click="$emit('getPageNo', 1)" v-if="startNumAndEndNum.start > 1">
+    <button :class="{active:pageNo == 1}" @click="$emit('getPageNo', 1)" v-if="startNumAndEndNum.start > 1">
       1
     </button>
     <button v-if="startNumAndEndNum.start > 2">···</button>

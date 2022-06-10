@@ -1,17 +1,50 @@
 <template>
   <div class="spec-preview">
-    <img src="../images/s1.png" />
-    <div class="event"></div>
+    <img :src="skuImageList[index].imgUrl" />
+    <div class="event" @mousemove="handler"></div>
     <div class="big">
-      <img src="../images/s1.png" />
+      <img :src="skuImageList[index].imgUrl"  ref="big"/>
     </div>
-    <div class="mask"></div>
+    <div class="mask" ref="mask"></div>
   </div>
 </template>
 
 <script>
   export default {
     name: "Zoom",
+    props: ['skuImageList'],
+    data() {
+      return {
+        index: 0
+      }
+    },
+    methods: {
+      handler(e) {        
+        const mask = this.$refs.mask;  //获取遮罩层
+        const big = this.$refs.big;  //获取大图
+        let left = e.offsetX - mask.offsetWidth / 2;
+        let top = e.offsetY - mask.offsetHeight / 2;
+        // 约束范围
+        if( left < 0 ) left = 0;
+        if( left >= mask.offsetWidth ) left = mask.offsetWidth;
+        if( top <= 0 ) top = 0;
+        if( top >= mask.offsetHeight ) top = mask.offsetHeight;
+        // 修改元素的left | top的属性值
+        mask.style.left = left + 'px'; 
+        mask.style.top = top + 'px'; 
+        // 设置大图的left | top
+        big.style.left = -2 * left + 'px';
+        big.style.top = -2 * top + 'px';
+
+
+      }
+    },
+    mounted() {
+      this.$bus.$on('index',(index) => {
+        this.index = index
+      })
+    },
+    
   }
 </script>
 

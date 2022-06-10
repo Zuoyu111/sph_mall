@@ -12,8 +12,7 @@ export const fetchCategoryListData = () => {
 
 // 获取搜索数据
 export const searchData = ( params ) => {
-  
-  return request({
+    return request({
     url:'/list',
     method: 'POST',
     data: params            
@@ -25,6 +24,15 @@ export const fatchDetailData = ( id ) => {
   return request({
     url: '/item/'+ id,
     method: "GET"
+  })
+}
+
+// 添加or更新购物车
+
+export const AddOrUpdateShopCar = (goodsId,goodsNum) => {
+  return request({
+    url: `/cart/addToCart/${goodsId}/${goodsNum}`,
+    method: "POST"
   })
 }
 
